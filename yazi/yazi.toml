@@ -1,0 +1,29 @@
+# yazi.toml
+[mgr]
+show_hidden = true
+
+[tasks]
+image_bound = [ 0, 0 ] 
+
+[opener]
+video = [
+  { run = 'mpv "$@"', orphan = true, for = "unix" },
+]
+image = [
+  { run = 'imv "$@"', orphan = true, for = "unix" },
+]
+
+[open]
+rules = [
+  # Text files to $EDITOR
+  { mime = "text/*", use = "edit" },
+
+  # Videos → mpv
+  { mime = "video/*", use = "video" },
+
+  # Images → imv
+  { mime = "image/*", use = "image" },
+
+  # Fallback (anything else)
+  { name = "*", use = "open" },
+]
