@@ -97,6 +97,7 @@ compinit
 # =============================================================================
 
 alias ll="exa -la --icons"
+alias ll="exa -la --icons"
 alias wallpaper='~/.config/hyprland-de/scripts/wallpaper.sh'
 alias dl='yt-dlp -P ~/Videos/meme -f "bv*+ba/b" -o "%(title)s.%(ext)s"'
 alias gccc="gcc -std=c23 -Wall -Wextra -Wpedantic -Werror -O2"
