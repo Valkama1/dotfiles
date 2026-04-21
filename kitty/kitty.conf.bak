@@ -28,7 +28,7 @@ shell_integration        enabled
 # Visual bell = quick flash instead of beep
 enable_audio_bell        no
 visual_bell_duration     0.08
-# visual_bell_color        #e0af68
+visual_bell_color        #e0af68
 
 # Scrollback & mouse
 scrollback_lines         20000
@@ -40,9 +40,3 @@ copy_on_select           yes
 confirm_os_window_close 0
 
 window_padding_width 5
-
-
-# BEGIN_KITTY_THEME
-# Noctalia
-include current-theme.conf
-# END_KITTY_THEME
