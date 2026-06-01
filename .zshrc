@@ -24,5 +24,14 @@ fi
 
 # Aliases
 alias ll="eza -la --icons"
+alias h="start-hyprland"
+alias f="cd /home/felix/fantasy/
+	 sudo ./fantasy.earthbound.out"
+
+myrient() {
+    wget -m -np -c -e robots=off -R "index.html*" "$1"
+}
 
 # Variables
+
+export PATH=$PATH:/home/felix/.spicetify
