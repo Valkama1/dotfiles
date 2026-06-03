@@ -1,0 +1,14 @@
+*
+
+!.gitignore
+
+!MangoHud/
+!atuin/
+!hypr/
+!kitty/
+!noctalia/
+!nvim/
+!yazi/
+!.zshrc
+
+!*/
