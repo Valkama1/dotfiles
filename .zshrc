@@ -1,37 +1,18 @@
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.histfile
+# ~/.zshrc
+
+# History
+HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
-setopt autocd extendedglob
-unsetopt beep
-bindkey -v
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/felix/.zshrc'
+setopt appendhistory
 
+# Basic completion
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
 
-# Atuin history integration for zsh
-eval "$(atuin init zsh)"
-eval "$(zoxide init zsh)"
+# Load ZSH plugins (Arch Linux package paths)
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh 2>/dev/null
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
-# Load Spaceship prompt
-if [ -f /usr/lib/spaceship-prompt/spaceship.zsh ]; then
-  source /usr/lib/spaceship-prompt/spaceship.zsh
-fi
-
-# Aliases
-alias ll="eza -la --icons"
-alias h="start-hyprland"
-alias f="cd /home/felix/fantasy/
-	 sudo ./fantasy.earthbound.out"
-
-myrient() {
-    wget -m -np -c -e robots=off -R "index.html*" "$1"
-}
-
-# Variables
-
-export PATH=$PATH:/home/felix/.spicetify
+# Initialize Starship prompt
+eval "$(starship init zsh)"
