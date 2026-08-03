@@ -11,12 +11,58 @@ REAL_HOME=$(eval echo ~$REAL_USER)
 echo "1. Creating sync script at /usr/local/bin/sddm-wallpaper-sync.sh..."
 cat << EOF > /usr/local/bin/sddm-wallpaper-sync.sh
 #!/bin/bash
-# Extract the active wallpaper from Noctalia's JSON cache using grep
+# 1. Update the wallpaper
 WALLPAPER_SRC=\$(grep -oP '"dark": "\K[^"]+' $REAL_HOME/.cache/noctalia/wallpapers.json | head -1)
 
 if [ -n "\$WALLPAPER_SRC" ] && [ -f "\$WALLPAPER_SRC" ]; then
     cp "\$WALLPAPER_SRC" /usr/share/sddm/themes/sddm-astronaut-theme/Backgrounds/noctalia_wallpaper.jpg
     chmod 644 /usr/share/sddm/themes/sddm-astronaut-theme/Backgrounds/noctalia_wallpaper.jpg
+fi
+
+# 2. Extract and apply Noctalia colors
+COLOR_FILE="$REAL_HOME/.config/noctalia/colors.json"
+if [ -f "\$COLOR_FILE" ]; then
+    PRIMARY=\$(grep '"mPrimary"' "\$COLOR_FILE" | cut -d'"' -f4)
+    ONPRIMARY=\$(grep '"mOnPrimary"' "\$COLOR_FILE" | cut -d'"' -f4)
+    SURFACE=\$(grep '"mSurface"' "\$COLOR_FILE" | cut -d'"' -f4)
+    ERRORCOLOR=\$(grep '"mError"' "\$COLOR_FILE" | cut -d'"' -f4)
+
+    CONFIG_FILE="/usr/share/sddm/themes/sddm-astronaut-theme/Themes/hyprland_kath.conf"
+    
+    # Text, Icons, Highlights -> PRIMARY
+    sed -i "s|^HeaderTextColor=.*|HeaderTextColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^DateTextColor=.*|DateTextColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^TimeTextColor=.*|TimeTextColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^LoginFieldTextColor=.*|LoginFieldTextColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^PasswordFieldTextColor=.*|PasswordFieldTextColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^UserIconColor=.*|UserIconColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^PasswordIconColor=.*|PasswordIconColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^SystemButtonsIconsColor=.*|SystemButtonsIconsColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^SessionButtonTextColor=.*|SessionButtonTextColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^VirtualKeyboardButtonTextColor=.*|VirtualKeyboardButtonTextColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^LoginButtonBackgroundColor=.*|LoginButtonBackgroundColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^HighlightBackgroundColor=.*|HighlightBackgroundColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
+
+    # Hover States -> White/OnPrimary
+    sed -i "s|^HoverUserIconColor=.*|HoverUserIconColor=\"\$ONPRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^HoverPasswordIconColor=.*|HoverPasswordIconColor=\"\$ONPRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^HoverSystemButtonsIconsColor=.*|HoverSystemButtonsIconsColor=\"\$ONPRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^HoverSessionButtonTextColor=.*|HoverSessionButtonTextColor=\"\$ONPRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^HoverVirtualKeyboardButtonTextColor=.*|HoverVirtualKeyboardButtonTextColor=\"\$ONPRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^LoginButtonTextColor=.*|LoginButtonTextColor=\"\$ONPRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^HighlightTextColor=.*|HighlightTextColor=\"\$ONPRIMARY\"|g" "\$CONFIG_FILE"
+    
+    # Form Background -> SURFACE
+    sed -i "s|^FormBackgroundColor=.*|FormBackgroundColor=\"\$SURFACE\"|g" "\$CONFIG_FILE"
+    sed -i "s|^BackgroundColor=.*|BackgroundColor=\"\$SURFACE\"|g" "\$CONFIG_FILE"
+    sed -i "s|^DimBackgroundColor=.*|DimBackgroundColor=\"\$SURFACE\"|g" "\$CONFIG_FILE"
+    
+    # Input Backgrounds -> ONPRIMARY
+    sed -i "s|^LoginFieldBackgroundColor=.*|LoginFieldBackgroundColor=\"\$ONPRIMARY\"|g" "\$CONFIG_FILE"
+    sed -i "s|^PasswordFieldBackgroundColor=.*|PasswordFieldBackgroundColor=\"\$ONPRIMARY\"|g" "\$CONFIG_FILE"
+    
+    # Warnings -> ERRORCOLOR
+    sed -i "s|^WarningColor=.*|WarningColor=\"\$ERRORCOLOR\"|g" "\$CONFIG_FILE"
 fi
 EOF
 chmod +x /usr/local/bin/sddm-wallpaper-sync.sh
