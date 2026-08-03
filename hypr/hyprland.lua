@@ -72,8 +72,10 @@ local menu = "qs -c noctalia-shell ipc call"
 
 -- See https://wiki.hypr.land/Configuring/Environment-variables/
 
+hl.env("XCURSOR_THEME", "XCursor-Pro-Dark")
 hl.env("XCURSOR_SIZE", 24)
 
+hl.env("HYPRCURSOR_THEME", "XCursor-Pro-Dark-Hyprcursor")
 hl.env("HYPRCURSOR_SIZE", 24)
 
 --##################
@@ -616,5 +618,6 @@ hl.window_rule({
 
 -- Autostart
 hl.on("hyprland.start", function()
+    hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'XCursor-Pro-Dark'")
     hl.exec_cmd("qs -c noctalia-shell")
 end)
