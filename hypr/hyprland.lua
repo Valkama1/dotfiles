@@ -10,6 +10,25 @@
 
 --## MONITORS ###
 
+-- Parse Dynamic Noctalia Colors
+local n_colors = {}
+local cfile = io.open(os.getenv("HOME") .. "/.config/hypr/noctalia/noctalia-colors.conf", "r")
+if cfile then
+    for line in cfile:lines() do
+        local key, val = line:match("^%$([%w_]+)%s*=%s*(rgb%([%w%d]+%))")
+        if key and val then
+            n_colors[key] = val
+        end
+    end
+    cfile:close()
+end
+
+local c_primary = n_colors["primary"] or "rgba(33ccffee)"
+local c_surface = n_colors["surface"] or "rgba(595959aa)"
+local c_secondary = n_colors["secondary"] or "rgba(ff5b33ee)"
+local c_error = n_colors["error"] or "rgba(fd4663ee)"
+
+
 --###############
 
 -- See https://wiki.hypr.land/Configuring/Monitors/
@@ -73,10 +92,10 @@ local menu = "qs -c noctalia-shell ipc call"
 -- See https://wiki.hypr.land/Configuring/Environment-variables/
 
 hl.env("XCURSOR_THEME", "BreezeX-RosePine-Linux")
-hl.env("XCURSOR_SIZE", 24)
+hl.env("XCURSOR_SIZE", 30)
 
 hl.env("HYPRCURSOR_THEME", "rose-pine-hyprcursor")
-hl.env("HYPRCURSOR_SIZE", 24)
+hl.env("HYPRCURSOR_SIZE", 30)
 
 --##################
 
@@ -117,6 +136,23 @@ hl.config({
         gaps_in = 3,
         gaps_out = 6,
         border_size = 2,
+        ["col.active_border"] = c_primary,
+        ["col.inactive_border"] = c_surface,
+    },
+})
+
+hl.config({
+    group = {
+        ["col.border_active"] = c_secondary,
+        ["col.border_inactive"] = c_surface,
+        ["col.border_locked_active"] = c_error,
+        ["col.border_locked_inactive"] = c_surface,
+        groupbar = {
+            ["col.active"] = c_secondary,
+            ["col.inactive"] = c_surface,
+            ["col.locked_active"] = c_error,
+            ["col.locked_inactive"] = c_surface,
+        },
     },
 })
 
