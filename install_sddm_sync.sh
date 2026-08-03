@@ -27,7 +27,8 @@ if [ -f "\$COLOR_FILE" ]; then
     SURFACE=\$(grep '"mSurface"' "\$COLOR_FILE" | cut -d'"' -f4)
     ERRORCOLOR=\$(grep '"mError"' "\$COLOR_FILE" | cut -d'"' -f4)
 
-    CONFIG_FILE="/usr/share/sddm/themes/sddm-astronaut-theme/Themes/hyprland_kath.conf"
+    ACTIVE_THEME=\$(grep -oP '^ConfigFile=\K.*' /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop)
+    CONFIG_FILE="/usr/share/sddm/themes/sddm-astronaut-theme/\$ACTIVE_THEME"
     
     # Text, Icons, Highlights -> PRIMARY
     sed -i "s|^HeaderTextColor=.*|HeaderTextColor=\"\$PRIMARY\"|g" "\$CONFIG_FILE"
