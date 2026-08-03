@@ -30,6 +30,10 @@ if [ -f "\$COLOR_FILE" ]; then
     ACTIVE_THEME=\$(grep -oP '^ConfigFile=\K.*' /usr/share/sddm/themes/sddm-astronaut-theme/metadata.desktop)
     CONFIG_FILE="/usr/share/sddm/themes/sddm-astronaut-theme/\$ACTIVE_THEME"
     
+    # Enable automatic dynamic scaling for any monitor resolution
+    sed -i 's|^ScreenWidth=.*|ScreenWidth=""|g' "\$CONFIG_FILE"
+    sed -i 's|^ScreenHeight=.*|ScreenHeight=""|g' "\$CONFIG_FILE"
+
     # Update Background Image
     sed -i "s|^Background=.*|Background=\"Backgrounds/noctalia_wallpaper.jpg\"|g" "\$CONFIG_FILE"
     sed -i "s|^BackgroundPlaceholder=.*|BackgroundPlaceholder=\"Backgrounds/noctalia_wallpaper.jpg\"|g" "\$CONFIG_FILE"
