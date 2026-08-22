@@ -19,7 +19,7 @@ eval "$(starship init zsh)"
 
 export PATH=$PATH:/home/felix/.spicetify
 
-. "$HOME/.atuin/bin/env"
+[ -f "$HOME/.atuin/bin/env" ] && . "$HOME/.atuin/bin/env"
 
 eval "$(atuin init zsh)"
 eval "$(zoxide init zsh)"

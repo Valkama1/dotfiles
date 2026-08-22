@@ -2,15 +2,22 @@
 
 !.gitignore
 
-!MangoHud/
-!atuin/
-!hypr/
-!kitty/
-!noctalia/
-!nvim/
-!yazi/
+!MangoHud/**
+!atuin/**
+!hypr/**
+!kitty/**
+!noctalia/**
+!nvim/**
+!yazi/**
 !.zshrc
+!/*.sh
 
 !*/
 
+# Ignore dynamically generated theme/color files to prevent conflicts across machines
+hypr/noctalia/
+hypr/hyprtoolkit.conf
+noctalia/colors.json
+kitty/themes/
+yazi/flavors/
 spicetify/
