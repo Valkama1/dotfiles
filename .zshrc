@@ -16,3 +16,14 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 
 # Initialize Starship prompt
 eval "$(starship init zsh)"
+
+export PATH=$PATH:/home/felix/.spicetify
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
+eval "$(zoxide init zsh)"
+# Custom Aliases
+alias ll="eza -la --icons"
+alias h="start-hyprland"
+alias f="cd /home/felix/fantasy/ && sudo ./fantasy.earthbound.out"
